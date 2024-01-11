@@ -15,6 +15,9 @@ function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [errorUpdating,setErrorUpdating] = useState();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+
   function handleStartRemovePlace(place) {
     setModalIsOpen(true);
     selectedPlace.current = place;
@@ -62,8 +65,17 @@ function App() {
 
   useEffect(()=>{
     (async () => {
-      const user = await fetchUserPlaces();
-      setUserPlaces(user);
+      setIsLoading(true);
+
+      try{
+        const places = await fetchUserPlaces();
+        setUserPlaces(places);
+
+        setIsLoading(false);
+      }catch(error){
+        setError({message : (error && error.message) || 'User Place fetch 실패'})
+      }
+
     })()
   },[])
 
@@ -98,12 +110,17 @@ function App() {
         </p>
       </header>
       <main>
-        <Places
-          title="I'd like to visit ..."
-          fallbackText="Select the places you would like to visit below."
-          places={userPlaces}
-          onSelectPlace={handleStartRemovePlace}
-        />
+        {error && <Error title="Error" message={error.message}/>}
+        {!error && (
+          <Places
+            title="I'd like to visit ..."
+            fallbackText="Select the places you would like to visit below."
+            isLoading={isLoading}
+            loadingText="User Place 로딩중..."
+            places={userPlaces}
+            onSelectPlace={handleStartRemovePlace}
+          />
+        )}        
 
         <AvailablePlaces onSelectPlace={handleSelectPlace} />
       </main>
