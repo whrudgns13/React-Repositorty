@@ -28,7 +28,7 @@ export async function updateUserPlaces(places){
 }
 
 export async function fetchUserPlaces(){
-    const response = await fetch("http://localhost:3000/user-placesss");
+    const response = await fetch("http://localhost:3000/user-places");
 
     if(!response.ok){
       throw new Error("Faild to fetch user-places");

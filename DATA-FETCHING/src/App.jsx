@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
 import Places from './components/Places.jsx';
 import Modal from './components/Modal.jsx';
@@ -7,16 +7,25 @@ import logoImg from './assets/logo.png';
 import AvailablePlaces from './components/AvailablePlaces.jsx';
 import { fetchUserPlaces, updateUserPlaces } from './http.js';
 import Error from './components/Error.jsx';
+import { useFetch } from '../hooks/useFetch.js';
 
 function App() {
   const selectedPlace = useRef();
 
-  const [userPlaces, setUserPlaces] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [errorUpdating,setErrorUpdating] = useState();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  //커스텀 훅
+  const {
+    isLoading,
+    error,
+    fetchData : userPlaces,
+    setFetchData : setUserPlaces
+  } = useFetch(fetchUserPlaces);
+  
+  const handlerError = () =>{
+    setErrorUpdating(null);
+  }
 
   function handleStartRemovePlace(place) {
     setModalIsOpen(true);
@@ -61,36 +70,18 @@ function App() {
       setUserPlaces(userPlaces);
       setErrorUpdating({message : error.message || "삭제 실패"});
     }    
-  }, [userPlaces]);
+  }, [userPlaces, setUserPlaces]);
 
-  useEffect(()=>{
-    (async () => {
-      setIsLoading(true);
-
-      try{
-        const places = await fetchUserPlaces();
-        setUserPlaces(places);
-
-        setIsLoading(false);
-      }catch(error){
-        setError({message : (error && error.message) || 'User Place fetch 실패'})
-      }
-
-    })()
-  },[])
-
-  const handlerError = () =>{
-    setErrorUpdating(null);
-  }
+  
 
   return (
     <>
       <Modal open={errorUpdating} onClose={handlerError}>
         {errorUpdating && (
           <Error 
-          title="An Error"
-          message={errorUpdating.message}
-          onConfirm={handlerError}        
+            title="An Error"
+            message={errorUpdating.message}
+            onConfirm={handlerError}        
           />
         )}       
       </Modal>
@@ -122,7 +113,9 @@ function App() {
           />
         )}        
 
-        <AvailablePlaces onSelectPlace={handleSelectPlace} />
+        <AvailablePlaces 
+          onSelectPlace={handleSelectPlace} 
+        />
       </main>
     </>
   );
