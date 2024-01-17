@@ -1,32 +1,29 @@
 import { useState } from "react";
 import Input from "./Input";
+import useInput from "../hooks/useInput";
 
 export default function StateLogin() {
-  const [formValue, setFormValue] = useState({
-    email: "",
-    password: "",
-  });
+  const {
+    value : emailValue,
+    isNotValid : emailIsNotValid,
+    inputChange : onEmailChange,
+    inputBlur : onEmailBlur
+  } = useInput('',(email)=>email && !email.includes("@"));
 
-  const [formEdit, setFormEdit] = useState({
-    email : false,
-    password : false,
-  });
-
-  const emailIsValid = formEdit.email && !formValue.email.includes("@");
-  const passwordIsValid = formEdit.password && formValue.password.trim().length < 6;
-  
-  const onInputBlur = (identifier) => {
-    setFormEdit(prevValues => ({...prevValues,[identifier] : true}));
-    
-  }
+  const {
+    value : passwordValue,
+    isNotValid : passwordIsNotValid,
+    inputChange : onPasswordChange,
+    inputBlur : onPasswordBlur
+  } = useInput('',(password)=>password && password.trim().length < 6);
   
   const onSubmit = (e) => {
     e.preventDefault();
-  };
+    
+    if(!emailIsNotValid || !passwordIsNotValid){
+      return;
+    }
 
-  const onInputChange = (identifier, value) => {
-    setFormValue((prevValues) => ({ ...prevValues, [identifier]: value }));
-    setFormEdit(prevValues => ({...prevValues,[identifier] : false}));
   };
 
   return (
@@ -37,23 +34,23 @@ export default function StateLogin() {
         <Input
           label="Email"
           id="email"
-          error={emailIsValid && 'Please enter a valid email address'}
+          error={emailIsNotValid && 'Please enter a valid email address'}
           type="email"
           name="email"
-          value={formValue.email}
-          onBlur={()=>onInputBlur("email")}
-          onChange={(e) => onInputChange("email", e.target.value)}
+          value={emailValue}
+          onBlur={onEmailBlur}
+          onChange={onEmailChange}
         />
 
         <Input
           label="Password"
           id="password"
-          error={passwordIsValid && 'Please enter a valid password'}
-          type="password"
+          error={passwordIsNotValid && 'Please enter a valid password'}
+          type="password"          
           name="password"
-          value={formValue.password}
-          onBlur={()=>onInputBlur("password")}
-          onChange={(e) => onInputChange("password", e.target.value)}
+          value={passwordValue}
+          onBlur={onPasswordBlur}
+          onChange={onPasswordChange}
         />
       </div>
 
