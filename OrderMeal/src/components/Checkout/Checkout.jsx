@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import Modal from "../Modal/Modal";
 import Button from "../UI/Button";
 import FormInput from "./FormInput";
+import CartContext from "../../store/CartContext";
 
-const Checkout = ({open, totalAmount, closeCheckout, onCheckout}) =>{
+const Checkout = ({open, closeCheckout, onCheckout}) =>{
+    const {totalAmount} = useContext(CartContext);
     const onSubmit = (e) => {
         e.preventDefault();
 

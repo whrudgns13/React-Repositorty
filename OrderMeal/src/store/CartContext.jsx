@@ -61,8 +61,11 @@ export const CartContextProvider = ({children}) => {
         dispatchCart({item, type : 'REMOVE_ITEM'})
     };
 
+    const totalAmount = cart.items.reduce((acc,cur) => acc+(cur.price*cur.count), 0);
+
     const cartContext = {
         items : cart.items,
+        totalAmount,
         addItem,
         removeItem
     };

@@ -1,13 +1,18 @@
-const CartItem = ({meal, handlerCart}) => {
+import { useContext } from "react";
+import CartContext from "../../store/CartContext";
+
+const CartItem = ({meal}) => {
+    const {addItem,removeItem} = useContext(CartContext);
+
     return (
-        <div className="cart-item">
+        <li className="cart-item">
             <p>{meal.name} - {meal.count} x ${meal.price}</p>
             <div className="cart-item-actions">
-                <button onClick={()=>{handlerCart(meal,"+")}}>+</button>
+                <button onClick={()=>{addItem(meal)}}>+</button>
                 {meal.count}
-                <button onClick={()=>{handlerCart(meal,"-")}}>-</button>
+                <button onClick={()=>{removeItem(meal)}}>-</button>
             </div>
-        </div>
+        </li>
     );  
 }
 
