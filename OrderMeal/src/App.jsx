@@ -7,6 +7,7 @@ import Cart from "./components/Cart/Cart";
 import Checkout from "./components/Checkout/Checkout";
 import Error from "./components/Error";
 import Success from "./components/Success";
+import { CartContextProvider } from "./store/CartContext";
 
 function App() {
   const [userCart, setUserCart] = useState([]);
@@ -94,7 +95,8 @@ function App() {
   }
 
   return (
-    <>
+    <CartContextProvider>
+
       <Error error={error} closeError={handlerError} onClose={setIsCheckoutOpen}/>
       <Success open={isSuccessOpen} closeSuccess={handlerSuccess}/>
       <Cart 
@@ -115,7 +117,7 @@ function App() {
       <main>
         <Meals addCart={addCart}/>
       </main>      
-    </>
+    </CartContextProvider>
   );
 }
 
