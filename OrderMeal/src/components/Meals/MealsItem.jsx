@@ -1,20 +1,22 @@
-const MealsItem = ({meal, onClick}) =>{
+import { currencyFormatting } from "../../util/formatting";
+
+const MealsItem = ({meal, addCart}) =>{
     return (
-        <div className="meal-item">            
+        <li className="meal-item">            
             <article>
                 <img src={`../../backend/public/${meal.image}`} />
-                <h3>{meal.name}</h3>
                 <div>
-                    <span className="meal-item-price">
-                        {meal.price}
-                    </span>
+                    <h3>{meal.name}</h3>
+                    <p className="meal-item-price">
+                        {currencyFormatting.format(meal.price)}
+                    </p>
                 </div>
-                <div className="meal-item-description">{meal.description}</div>
+                <p className="meal-item-description">{meal.description}</p>
                 <div className="meal-item-actions">
-                    <button className="button" onClick={()=>onClick(meal)}>Add Cart</button>
+                    <button className="button" onClick={()=>addCart(meal,"+")}>Add Cart</button>
                 </div>
             </article>
-        </div>
+        </li>
     )
 };
 

@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import Cart from "../Cart/Cart";
 import { useEffect, useRef } from "react";
 
-const Modal = ({open, children, onClose}) =>{
+const Modal = ({open, children}) =>{
     const dialog = useRef();
 
     useEffect(()=>{
@@ -10,6 +10,7 @@ const Modal = ({open, children, onClose}) =>{
             dialog.current.showModal();
         }else{
             dialog.current.close();
+            //onClose();
         }
     },[open]);
 

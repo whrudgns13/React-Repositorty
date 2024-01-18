@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import MealsItem from "./MealsItem";
 
-const Meals = ({onClick}) =>{
+const Meals = ({addCart}) =>{
     const [meals, setMeals] = useState([]);
 
     useEffect(()=>{
         (async ()=>{
             const response = await fetch("http://localhost:3000/meals");
+            
             if(!response.ok){
                 console.log("fetch error...");
                 return;
@@ -16,15 +17,15 @@ const Meals = ({onClick}) =>{
                 meal.count = 0;
                 return meal;
             });
-            console.log(meals);
+            
             setMeals(meals);
         })()
     },[]);
 
     return (
-        <div id="meals">
-            {meals.map(( meal => <MealsItem key={meal.id} meal={meal} onClick={onClick}/> ))}
-        </div>
+        <ui id="meals">
+            {meals.map(( meal => <MealsItem key={meal.id} meal={meal} addCart={addCart}/> ))}
+        </ui>
     )
 };
 

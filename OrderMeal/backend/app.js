@@ -22,8 +22,8 @@ app.get('/meals', async (req, res) => {
 
 app.post('/orders', async (req, res) => {
   const orderData = req.body.order;
-
-  if (orderData === null || orderData.items === null || orderData.items === []) {
+  console.log(orderData);
+  if (orderData === null || orderData.items === null || !orderData.items.length) {
     return res
       .status(400)
       .json({ message: 'Missing data.' });

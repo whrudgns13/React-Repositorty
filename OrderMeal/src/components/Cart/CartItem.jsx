@@ -1,11 +1,11 @@
-const CartItem = ({meal}) =>{
+const CartItem = ({meal, handlerCart}) => {
     return (
         <div className="cart-item">
-            <p>{meal.name}</p>
+            <p>{meal.name} - {meal.count} x ${meal.price}</p>
             <div className="cart-item-actions">
-                <button>+</button>
-                1
-                <button>-</button>
+                <button onClick={()=>{handlerCart(meal,"+")}}>+</button>
+                {meal.count}
+                <button onClick={()=>{handlerCart(meal,"-")}}>-</button>
             </div>
         </div>
     );  
