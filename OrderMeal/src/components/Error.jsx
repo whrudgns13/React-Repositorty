@@ -1,4 +1,5 @@
 import Modal from "./Modal/Modal"
+import Button from "./UI/Button";
 
 const Error = ({error, closeError, onClose}) =>{
     const handlerClose = () =>{
@@ -12,7 +13,7 @@ const Error = ({error, closeError, onClose}) =>{
             <h2>Error</h2>
             <p>{error}</p>
             <div className="modal-actions">
-                <button className="button" onClick={handlerClose}>Okay</button>
+                <Button onClick={handlerClose}>Okay</Button>
             </div>
         </Modal>
     )

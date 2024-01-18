@@ -1,4 +1,5 @@
 import Modal from "../Modal/Modal";
+import Button from "../UI/Button";
 import FormInput from "./FormInput";
 
 const Checkout = ({open, totalAmount, closeCheckout, onCheckout}) =>{
@@ -48,8 +49,8 @@ const Checkout = ({open, totalAmount, closeCheckout, onCheckout}) =>{
                     />
                 </div>
                 <div className="modal-actions">
-                    <button type="button" className="text-button" onClick={()=>closeCheckout(false)}>Close</button>
-                    <button type="submit" className="button" onClick={()=>closeCheckout(false)}>Go to Checkout</button>
+                    <Button type="button" textOnly={true} onClick={()=>closeCheckout(false)}>Close</Button>
+                    <Button type="submit" onClick={()=>closeCheckout(false)}>Go to Checkout</Button>
                 </div>  
             </form>
         </Modal>

@@ -1,4 +1,5 @@
 import logo from "../assets/logo.jpg";
+import Button from "./UI/Button";
 
 const Header = ({cartLength, openCart}) => {
     return (
@@ -7,9 +8,9 @@ const Header = ({cartLength, openCart}) => {
                 <img src={logo}></img>
                 <h1>REACTFOOD</h1>
             </div>
-            <button className="text-button" onClick={openCart}>
+            <Button textOnly={true} onClick={openCart}>
                 Cart({cartLength})
-            </button>
+            </Button>
         </header>
     )
 };
