@@ -16,7 +16,7 @@ const Modal = ({open, children}) =>{
 
     return (
         ReactDOM.createPortal(
-        <dialog ref={dialog} className="modal">
+        <dialog ref={dialog} className="modal" >
             {children}
         </dialog>,
         document.querySelector("#modal"))       

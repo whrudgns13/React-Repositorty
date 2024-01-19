@@ -13,19 +13,16 @@ const Meals = ({addCart}) =>{
                 return;
             }
 
-            const meals = (await response.json()).map(meal=>{
-                meal.count = 0;
-                return meal;
-            });
+            const meals = await response.json();
             
             setMeals(meals);
         })()
     },[]);
 
     return (
-        <ui id="meals">
+        <ul id="meals">
             {meals.map(( meal => <MealsItem key={meal.id} meal={meal} addCart={addCart}/> ))}
-        </ui>
+        </ul>
     )
 };
 

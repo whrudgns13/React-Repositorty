@@ -4,17 +4,22 @@ import Modal from "../Modal/Modal";
 import CartContext from "../../store/CartContext";
 import { currencyFormatting } from "../../util/formatting";
 import Button from "../UI/Button";
+import ModalContext from "../../store/ModalContext";
 
-const Cart = ({open, closeCart, openCheckoutModal}) =>{
+const Cart = () =>{
     const {items, totalAmount} = useContext(CartContext);
-
+    // const {cartIsOpen, setCartOpen, setCheckoutOpen} = useContext(ModalContext);
+    const {modalProgress, setModalProgress} = useContext(ModalContext);
+    
     const openCheckout = ()=>{
-        closeCart(false);
-        openCheckoutModal(true);
+        // setCartOpen(false);
+        // setCheckoutOpen(true);
+        setModalProgress('empty');
+        setModalProgress('checkout');
     }
 
     return (
-        <Modal open={open}>
+        <Modal open={modalProgress==="cart"}>
             <div className="cart">
                 <h2>Your Cart</h2>
                 <ul>
@@ -24,7 +29,7 @@ const Cart = ({open, closeCart, openCheckoutModal}) =>{
                 </ul>
                 <p className="cart-total">{currencyFormatting.format(totalAmount)}</p>
                 <div className="modal-actions">
-                    <Button textOnly={true} onClick={()=>closeCart(false)}>Close</Button>
+                    <Button textOnly={true} onClick={()=>setModalProgress('empty')}>Close</Button>
                     <Button onClick={openCheckout}>Go to Checkout</Button>
                 </div>                
             </div>

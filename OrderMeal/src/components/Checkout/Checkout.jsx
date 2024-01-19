@@ -3,9 +3,50 @@ import Modal from "../Modal/Modal";
 import Button from "../UI/Button";
 import FormInput from "./FormInput";
 import CartContext from "../../store/CartContext";
+import ModalContext from "../../store/ModalContext";
 
-const Checkout = ({open, closeCheckout, onCheckout}) =>{
-    const {totalAmount} = useContext(CartContext);
+const Checkout = () =>{
+    const {totalAmount, items, removeItem} = useContext(CartContext);
+    const {modalProgress, setModalProgress} = useContext(ModalContext);
+
+    const onCheckout = async (formData) => {
+        setModalProgress('empty');
+        
+        try{
+          const response = await fetch("http://localhost:3000/orders",{
+            method : "POST",
+            body : JSON.stringify({
+              order : {
+                items,
+                customer : formData
+              }
+            }),
+            headers : {
+              'Content-Type' : "application/json"
+            }
+          });
+      
+          const data = await response.json();
+          
+          if(!response.ok){
+            setModalProgress({
+                value : 'error',
+                message : data.message
+            });        
+            return;
+          }
+          
+          setModalProgress('success');
+          removeItem([]);
+        }catch(error){
+            setModalProgress({
+                value : 'error',
+                message : error.message
+            });  
+        }
+        
+      }
+
     const onSubmit = (e) => {
         e.preventDefault();
 
@@ -14,8 +55,10 @@ const Checkout = ({open, closeCheckout, onCheckout}) =>{
         
         onCheckout(enterData);
     };
+
+   
     return (
-        <Modal open={open}>
+        <Modal open={modalProgress==='checkout'}>
             <form className="control" onSubmit={onSubmit}>
                 <h2>Checkout</h2>
                 <p>Total Amount : ${totalAmount}</p>
@@ -52,8 +95,8 @@ const Checkout = ({open, closeCheckout, onCheckout}) =>{
                     />
                 </div>
                 <div className="modal-actions">
-                    <Button type="button" textOnly={true} onClick={()=>closeCheckout(false)}>Close</Button>
-                    <Button type="submit" onClick={()=>closeCheckout(false)}>Go to Checkout</Button>
+                    <Button type="button" textOnly={true} onClick={()=>setModalProgress('')}>Close</Button>
+                    <Button type="submit">Go to Checkout</Button>
                 </div>  
             </form>
         </Modal>

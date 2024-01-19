@@ -1,19 +1,18 @@
-import { createContext, useState, useReducer } from "react";
+import { createContext, useReducer } from "react";
 
 const CartContext = createContext({
     items : [],
     addItem : (item) => {},
     removeItem : (item) => {},
-    isOpen : false,
     totalAmount : 0
 });
 
 export const CartContextProvider = ({children}) => {
     
     const [cart, dispatchCart] = useReducer((state,action)=>{
-        const idx = state.items.findIndex(item=>item.id===action.item.id);
 
         if(action.type==="ADD_ITEM"){
+            const idx = state.items.findIndex(item=>item.id===action.item.id);
             const updateItems = [...state.items];
             if(idx>-1){
                 updateItems[idx] = {
@@ -31,6 +30,12 @@ export const CartContextProvider = ({children}) => {
         }
 
         if(action.type==="REMOVE_ITEM"){
+            if(Array.isArray(action.item)){
+                return {
+                    items : []
+                }
+            }
+            const idx = state.items.findIndex(item=>item.id===action.item.id);
             const updateItems = [...state.items];
             
             if(updateItems[idx].count===1){

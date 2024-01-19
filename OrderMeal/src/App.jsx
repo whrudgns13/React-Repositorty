@@ -6,75 +6,39 @@ import Checkout from "./components/Checkout/Checkout";
 import Error from "./components/Error";
 import Success from "./components/Success";
 import { CartContextProvider } from "./store/CartContext";
+import { ModalContextProvider } from "./store/ModalContext";
 
 function App() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-  const [error, setError] = useState('');
+  // const [isCartOpen, setIsCartOpen] = useState(false);
+  // const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  // const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  // const [error, setError] = useState('');
 
-  const handlerCartModal = (isOpen) =>{
-    setIsCartOpen(isOpen);
-  };
+  // const handlerCartModal = (isOpen) =>{
+  //   setIsCartOpen(isOpen);
+  // };
 
-  const handlerCheckoutModal = (isOpen) =>{
-    setIsCheckoutOpen(isOpen);
-  };
+  // const handlerCheckoutModal = (isOpen) =>{
+  //   setIsCheckoutOpen(isOpen);
+  // };
 
-  const handlerSuccess = (isOpen) =>{
-    setIsSuccessOpen(isOpen);
-  }
+  // const handlerSuccess = (isOpen) =>{
+  //   setIsSuccessOpen(isOpen);
+  // }
 
-  const handlerError = (isOpen) =>{
-    setError(isOpen);
-  }
-
-  const onCheckout = async (formData) => {
-    try{
-      const response = await fetch("http://localhost:3000/orders",{
-        method : "POST",
-        body : JSON.stringify({
-          order : {
-            items : userCart,
-            customer : formData
-          }
-        }),
-        headers : {
-          'Content-Type' : "application/json"
-        }
-      });
-  
-      const data = await response.json();
-      
-      if(!response.ok){
-        setError(data.message);        
-        return;
-      }
-      
-      setIsSuccessOpen(true);
-      setUserCart([]);
-    }catch(error){
-      setError(error.message);
-    }
-    
-  }
- 
+  // const handlerError = (isOpen) =>{
+  //   setError(isOpen);
+  // }
 
   return (
     <CartContextProvider>
-      <Error error={error} closeError={handlerError} onClose={setIsCheckoutOpen}/>
-      <Success open={isSuccessOpen} closeSuccess={handlerSuccess}/>
-      <Cart 
-        open={isCartOpen} 
-        closeCart={handlerCartModal}
-        openCheckoutModal={handlerCheckoutModal}
-      />
-      <Checkout 
-        open={isCheckoutOpen}
-        closeCheckout={handlerCheckoutModal}
-        onCheckout={onCheckout}
-      />
-      <Header openCart={handlerCartModal}/>
+      <ModalContextProvider>
+        <Error />
+        <Success />
+        <Cart />
+        <Checkout />
+        <Header/>
+      </ModalContextProvider>      
       <main>
         <Meals/>
       </main>      
