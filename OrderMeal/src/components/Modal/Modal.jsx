@@ -6,12 +6,13 @@ const Modal = ({open, children}) =>{
     const dialog = useRef();
 
     useEffect(()=>{
+        const modal = dialog.current;
+
         if(open){
-            dialog.current.showModal();
-        }else{
-            dialog.current.close();
-            //onClose();
+            modal.showModal();
         }
+        
+        return () => modal.close();
     },[open]);
 
     return (
