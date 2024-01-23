@@ -19,22 +19,7 @@ export default ModalContext;
 export const ModalContextProvider = ({ children }) => {
   const [modal, setModal] = useState('');
 
-  const modalText = {
-    empty : 'empty',
-    cart : 'cart',
-    checkout : 'checkout',
-    success : 'success',
-    error : {
-        value : 'error',
-        message : ''
-    }
-  };
-
   const setModalProgress = (modal) => {
-    if(!modalText[modal]){
-        setModal('error');
-    }
-
     setModal(modal);
   };
 

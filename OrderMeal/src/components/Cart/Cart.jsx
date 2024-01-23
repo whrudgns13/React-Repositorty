@@ -12,14 +12,15 @@ const Cart = () =>{
     const {modalProgress, setModalProgress} = useContext(ModalContext);
     
     const openCheckout = ()=>{
-        // setCartOpen(false);
-        // setCheckoutOpen(true);
-        setModalProgress('empty');
         setModalProgress('checkout');
     }
 
+    const handlerClose = ()=>{
+        modalProgress==='cart' ? setModalProgress('') : null
+    }
+    
     return (
-        <Modal open={modalProgress==="cart"}>
+        <Modal open={modalProgress==="cart"} onClose={handlerClose}>
             <div className="cart">
                 <h2>Your Cart</h2>
                 <ul>
@@ -30,7 +31,7 @@ const Cart = () =>{
                 <p className="cart-total">{currencyFormatting.format(totalAmount)}</p>
                 <div className="modal-actions">
                     <Button textOnly={true} onClick={()=>setModalProgress('empty')}>Close</Button>
-                    <Button onClick={openCheckout}>Go to Checkout</Button>
+                    {!!items.length && <Button onClick={openCheckout}>Go to Checkout</Button>}
                 </div>                
             </div>
         </Modal>       

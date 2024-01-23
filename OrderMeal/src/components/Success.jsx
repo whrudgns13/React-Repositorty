@@ -8,11 +8,11 @@ const Success = () =>{
     const {modalProgress, setModalProgress} = useContext(ModalContext);
     
     return (
-        <Modal open={modalProgress==='success'} >
+        <Modal open={modalProgress==='success'} onClose={()=>setModalProgress('empty')} >
             <h2>Success</h2>
             <p>오더 성공</p>
             <div className="modal-actions">
-                <Button onClick={()=>setModalProgress('')}>Okay</Button>
+                <Button onClick={()=>setModalProgress('empty')}>Okay</Button>
             </div>
         </Modal>
     )
