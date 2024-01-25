@@ -26,6 +26,7 @@ const counterSubscriber = () => {
 
 store.subscribe(counterSubscriber);
 
+//dispatch 할때마다 subscribe해놓은 counterSubscriber 실행
 store.dispatch({
   type : "increment"
 });
